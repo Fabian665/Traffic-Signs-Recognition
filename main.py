@@ -1,9 +1,9 @@
 import os
+import cv2
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from PIL import Image
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -17,10 +17,12 @@ for a_class in range(classes):
     path = os.path.join(cur_path, 'data1', 'train', str(a_class))
     images = os.listdir(path)
 
+    print(a_class)
+
     for a in images:
-        image = Image.open(path + '\\' + a)
-        image = image.resize((30, 30))
-        image = np.array(image)
+        image = cv2.imread(path + '\\' + a)
+        image = cv2.resize(image, (30, 30))
+        # image = np.array(image)
         data.append(image)
         labels.append(a_class)
 
