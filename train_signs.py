@@ -3,9 +3,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 
 
 data = []
@@ -23,7 +21,6 @@ for a_class in range(classes):
         image = cv2.imread(path + '\\' + a)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (30, 30))
-        # image = np.array(image)
         data.append(image)
         labels.append(a_class)
 
@@ -54,21 +51,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 history = model.fit(X_train, y_train, batch_size=64, epochs=15, validation_data=(X_test, y_test))
 model.save('models/sign_recognition.h5')
 
-plt.figure(0)
-plt.plot(history.history['accuracy'], label='training accuracy')
-plt.plot(history.history['val_accuracy'], label='val accuracy')
-plt.title('Accuracy')
-plt.xlabel('epochs')
-plt.ylabel('accuracy')
-plt.legend()
-plt.savefig('accuracy.jpg')
+hist_df = pd.DataFrame(history.history)
 
-plt.figure(1)
-plt.plot(history.history['loss'], label='training loss')
-plt.plot(history.history['val_loss'], label='val loss')
-plt.title('Loss')
-plt.xlabel('epochs')
-plt.ylabel('loss')
-plt.legend()
-plt.savefig('loss.jpg')
-
+with open('models/model_history.json', mode='w') as f:
+    hist_df.to_json(f)

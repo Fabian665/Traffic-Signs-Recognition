@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/models/model_history.json
+/models/sign_recognition.h5
+/stats/accuracy.jpg
+/stats/confusion_matrix.jpg
+/stats/loss.jpg
