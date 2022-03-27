@@ -21,6 +21,7 @@ for a_class in range(classes):
 
     for a in images:
         image = cv2.imread(path + '\\' + a)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (30, 30))
         # image = np.array(image)
         data.append(image)
@@ -50,8 +51,8 @@ model.add(tf.keras.layers.Dropout(rate=0.5))
 model.add(tf.keras.layers.Dense(43, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
 history = model.fit(X_train, y_train, batch_size=64, epochs=15, validation_data=(X_test, y_test))
+model.save('models/sign_recognition.h5')
 
 plt.figure(0)
 plt.plot(history.history['accuracy'], label='training accuracy')
@@ -60,4 +61,14 @@ plt.title('Accuracy')
 plt.xlabel('epochs')
 plt.ylabel('accuracy')
 plt.legend()
-plt.show()
+plt.savefig('accuracy.jpg')
+
+plt.figure(1)
+plt.plot(history.history['loss'], label='training loss')
+plt.plot(history.history['val_loss'], label='val loss')
+plt.title('Loss')
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.legend()
+plt.savefig('loss.jpg')
+
