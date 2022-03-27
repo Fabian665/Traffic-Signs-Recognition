@@ -58,7 +58,8 @@ X_test = np.array(data)
 y_pred = model.predict(X_test)
 y_pred = np.argmax(y_pred, axis=1)
 
-print(accuracy_score(y_values, y_pred))
+with open('accuracy.txt', 'w') as f:
+    f.write(str(accuracy_score(y_values, y_pred)))
 
 labels = {
     'Speed limit (20km/h)',
