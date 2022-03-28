@@ -134,3 +134,4 @@ dmypy.json
 /stats/loss.jpg
 /data/
 /gtsrb-german-traffic-sign.zip
+/stats/accuracy.txt
