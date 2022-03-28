@@ -133,3 +133,4 @@ dmypy.json
 /stats/confusion_matrix.jpg
 /stats/loss.jpg
 /data/
+/gtsrb-german-traffic-sign.zip
