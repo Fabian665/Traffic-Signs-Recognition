@@ -5,6 +5,10 @@ from tensorflow import keras
 
 
 def get_model():
+    """
+    gets the model
+    :return: keras sequential model
+    """
     try:
         model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
     except OSError:
@@ -13,14 +17,29 @@ def get_model():
 
 
 def get_input():
-    filename = input('filename:')
-    if '\\' in filename:
-        tup = tuple(filename.split('\\'))
-    elif '/' in filename:
-        tup = tuple(filename.split('/'))
-    else:
-        return filename
-    return os.path.join(*tup)
+    """
+    gets input from user and turn in into valid path
+    :return:
+    """
+    while True:
+        filename = input('filename:')
+        if '\\' in filename:
+            file_path = tuple(filename.split('\\'))
+        elif '/' in filename:
+            file_path = tuple(filename.split('/'))
+        else:
+            file_path = filename
+
+        if not isinstance(file_path, str):
+            im_path = os.path.join(*file_path)
+        else:
+            im_path = file_path
+
+        if not os.path.isfile(im_path):
+            print(f'{im_path} is not a file or the path is wrong, please try again')
+            continue
+
+        return im_path
 
 
 def get_image(im_path: str):
