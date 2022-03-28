@@ -132,3 +132,4 @@ dmypy.json
 /stats/accuracy.jpg
 /stats/confusion_matrix.jpg
 /stats/loss.jpg
+/data/
