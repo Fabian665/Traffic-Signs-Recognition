@@ -1,6 +1,7 @@
 import os
 import sys
 import cv2
+import imghdr
 import numpy as np
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -115,6 +116,23 @@ class RoadSignsDetection:
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (30, 30))
         return original_image, image
+
+    @staticmethod
+    def get_images_from_dir(im_path):
+        if not os.path.isdir(im_path):
+            raise OSError(f'{im_path} is not a valid path')
+        data = []
+        for image in os.listdir(im_path):
+            try:
+                if imghdr.what(os.path.join(im_path, image)) is None:
+                    continue
+                image = cv2.imread(os.path.join(im_path, image))
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                image = cv2.resize(image, (30, 30))
+                data.append(image)
+            except PermissionError:
+                continue
+        return data
 
     def predict_one(self, image: np.ndarray):
         image = np.array([image])
