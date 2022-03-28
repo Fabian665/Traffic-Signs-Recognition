@@ -49,6 +49,10 @@ model.add(tf.keras.layers.Dense(43, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 history = model.fit(X_train, y_train, batch_size=64, epochs=15, validation_data=(X_test, y_test))
+
+if not os.path.isdir('models'):
+    os.mkdir('models')
+
 model.save(os.path.join('models', 'sign_recognition.h5'))
 
 hist_df = pd.DataFrame(history.history)
