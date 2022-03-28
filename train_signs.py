@@ -17,8 +17,8 @@ for a_class in range(classes):
 
     print(a_class)
 
-    for a in images:
-        image = cv2.imread(os.path.join(path, a))
+    for an_image in images:
+        image = cv2.imread(os.path.join(path, an_image))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (30, 30))
         data.append(image)
