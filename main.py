@@ -44,10 +44,11 @@ def predict(image: np.ndarray, model):
     return prediction
 
 
-model = get_model()
-path = get_input()
-original_image, image = get_image(path)
-pred = predict(image, model)
-print(pred)
-cv2.imshow('original', original_image)
-cv2.waitKey()
+if __name__ == '__main__':
+    model = get_model()
+    path = get_input()
+    original_image, image = get_image(path)
+    pred = predict(image, model)
+    print(pred)
+    cv2.imshow('original', original_image)
+    cv2.waitKey()
