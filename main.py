@@ -1,6 +1,8 @@
 import os
+import sys
 import cv2
 import numpy as np
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow import keras
 
 
@@ -10,10 +12,10 @@ def get_model():
     :return: keras sequential model
     """
     try:
-        model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
+        return_model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
     except OSError:
         raise OSError('Please run train_signs.py or upload sign_recognition.h5 to models folder')
-    return model
+    return return_model
 
 
 def get_input():
@@ -23,23 +25,31 @@ def get_input():
     """
     while True:
         filename = input('filename:')
-        if '\\' in filename:
-            file_path = tuple(filename.split('\\'))
-        elif '/' in filename:
-            file_path = tuple(filename.split('/'))
+        res, string = validate_path(filename)
+        if res:
+            return string
         else:
-            file_path = filename
-
-        if not isinstance(file_path, str):
-            im_path = os.path.join(*file_path)
-        else:
-            im_path = file_path
-
-        if not os.path.isfile(im_path):
-            print(f'{im_path} is not a file or the path is wrong, please try again')
             continue
 
-        return im_path
+
+def validate_path(input_text: str) -> tuple:
+    if '\\' in input_text:
+        file_path = tuple(input_text.split('\\'))
+    elif '/' in input_text:
+        file_path = tuple(input_text.split('/'))
+    else:
+        file_path = input_text
+
+    if not isinstance(file_path, str):
+        im_path = os.path.join(*file_path)
+    else:
+        im_path = file_path
+
+    if not os.path.isfile(im_path):
+        print(f'{im_path} is not a file or the path is wrong, please try again')
+        return False, None
+    else:
+        return True, im_path
 
 
 def get_image(im_path: str):
@@ -64,10 +74,18 @@ def predict(image: np.ndarray, model):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) == 0:
+        path = get_input()
+    else:
+        res, string = validate_path(sys.argv[1])
+        if res:
+            path = string
+        else:
+            path = get_input()
+
     model = get_model()
-    path = get_input()
-    original_image, image = get_image(path)
-    pred = predict(image, model)
+    original_im, im = get_image(path)
+    pred = predict(im, model)
     print(pred)
-    cv2.imshow('original', original_image)
+    cv2.imshow('original', original_im)
     cv2.waitKey()
