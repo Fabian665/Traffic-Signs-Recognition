@@ -4,7 +4,8 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 
 if not os.path.isdir('data'):
     os.mkdir('data')
-elif os.path.isfile(os.path.join('data', 'Test.csv')):
+
+if os.path.isfile(os.path.join('data', 'Test.csv')):
     api = KaggleApi()
     api.authenticate()
 
