@@ -11,7 +11,7 @@ from sklearn.metrics import confusion_matrix
 cwd = os.getcwd()
 
 try:
-    model = keras.models.load_model('models\\sign_recognition.h5')
+    model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
 except OSError:
     raise OSError('Please run train_signs.py or upload sign_recognition.h5 to models folder')
 
@@ -19,7 +19,7 @@ except OSError:
 if not os.path.isfile(os.path.join(cwd, 'models', 'model_history.json')):
     raise OSError('Please run train_signs.py or upload model_history.json to models folder')
 
-df = pd.read_json('models\\model_history.json')
+df = pd.read_json(os.path.join('models', 'model_history.json'))
 
 
 plt.figure(0)
@@ -29,7 +29,7 @@ plt.title('Accuracy')
 plt.xlabel('epochs')
 plt.ylabel('accuracy')
 plt.legend()
-plt.savefig('stats\\accuracy.jpg')
+plt.savefig(os.path.join('stats', 'accuracy.jpg'))
 
 plt.figure(1)
 plt.plot(df['loss'], label='training loss')
@@ -38,10 +38,10 @@ plt.title('Loss')
 plt.xlabel('epochs')
 plt.ylabel('loss')
 plt.legend()
-plt.savefig('stats\\loss.jpg')
+plt.savefig(os.path.join('stats', 'loss.jpg'))
 
 
-y_test = pd.read_csv(os.path.join(cwd, 'data1', 'Test.csv'))
+y_test = pd.read_csv(os.path.join('data', 'Test.csv'))
 y_test['Path'] = y_test['Path'].apply(lambda x: x.split('/')[1])
 
 y_values = y_test["ClassId"].values
@@ -49,7 +49,7 @@ paths = y_test["Path"].values
 
 data = []
 for path in paths:
-    image = cv2.imread(os.path.join(cwd, 'data1', 'Test', path))
+    image = cv2.imread(os.path.join(cwd, 'data', 'Test', path))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (30, 30))
     data.append(image)
@@ -58,7 +58,7 @@ X_test = np.array(data)
 y_pred = model.predict(X_test)
 y_pred = np.argmax(y_pred, axis=1)
 
-with open('accuracy.txt', 'w') as f:
+with open(os.path.join('stats', 'accuracy.txt'), 'w') as f:
     f.write(str(accuracy_score(y_values, y_pred)))
 
 labels = {
@@ -111,5 +111,5 @@ fig, ax = plt.subplots(figsize=(15, 15))
 cm = confusion_matrix(y_values, y_pred)
 display = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
 display.plot(xticks_rotation='vertical', ax=ax)
-plt.savefig('stats\\confusion_matrix.jpg')
+plt.savefig(os.path.join('stats', 'confusion_matrix.jpg'))
 

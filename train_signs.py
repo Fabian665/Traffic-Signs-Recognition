@@ -18,7 +18,7 @@ for a_class in range(classes):
     print(a_class)
 
     for a in images:
-        image = cv2.imread(path + '\\' + a)
+        image = cv2.imread(os.path.join(path, a))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (30, 30))
         data.append(image)
@@ -49,9 +49,9 @@ model.add(tf.keras.layers.Dense(43, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 history = model.fit(X_train, y_train, batch_size=64, epochs=15, validation_data=(X_test, y_test))
-model.save('models/sign_recognition.h5')
+model.save(os.path.join('models', 'sign_recognition.h5'))
 
 hist_df = pd.DataFrame(history.history)
 
-with open('models/model_history.json', mode='w') as f:
+with open(os.path.join('models', 'model_history.json'), mode='w') as f:
     hist_df.to_json(f)
