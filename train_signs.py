@@ -12,7 +12,7 @@ classes = 43
 cur_path = os.getcwd()
 
 for a_class in range(classes):
-    path = os.path.join(cur_path, 'data1', 'train', str(a_class))
+    path = os.path.join(cur_path, 'data', 'Train', str(a_class))
     images = os.listdir(path)
 
     print(a_class)
