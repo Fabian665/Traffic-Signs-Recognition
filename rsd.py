@@ -66,7 +66,7 @@ class RoadSignsDetection:
         try:
             return_model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
         except OSError:
-            raise OSError('Please run train_signs.py or upload sign_recognition.h5 to models folder')
+            raise OSError('Please run train.py or upload sign_recognition.h5 to models folder')
         return return_model
 
     def get_input(self):

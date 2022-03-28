@@ -13,11 +13,11 @@ cwd = os.getcwd()
 try:
     model = keras.models.load_model(os.path.join('models', 'sign_recognition.h5'))
 except OSError:
-    raise OSError('Please run train_signs.py or upload sign_recognition.h5 to models folder')
+    raise OSError('Please run train.py or upload sign_recognition.h5 to models folder')
 
 
 if not os.path.isfile(os.path.join(cwd, 'models', 'model_history.json')):
-    raise OSError('Please run train_signs.py or upload model_history.json to models folder')
+    raise OSError('Please run train.py or upload model_history.json to models folder')
 
 df = pd.read_json(os.path.join('models', 'model_history.json'))
 
