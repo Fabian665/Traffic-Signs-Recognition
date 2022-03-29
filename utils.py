@@ -68,7 +68,7 @@ def get_input(file=True):
         path = input('filename: ' if file else 'directory: ')
         try:
             string = validate_path(path)
-        except OSError:
-            print(OSError)
+        except OSError as error:
+            print(error)
             continue
         return string
