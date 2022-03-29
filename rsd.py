@@ -68,12 +68,24 @@ class RoadSignsDetection:
         return return_model
 
     def predict_one(self, image: np.ndarray):
+        """
+        Accepts a numpy array representing an image and returns a string of the name of the traffic sign
+        :param image: np.ndarray
+        :return: str
+        """
         image = np.array([image])
         prediction = self.model.predict(image)
         prediction = np.argmax(prediction, axis=1)
         return self.classes_dict[prediction[0] + 1]
 
     def predict_list(self, images_list: list):
+        """
+        Accepts a list of numpy arrays representing images and returns a numpy array in the size of the list, each
+        element in the returned list corresponds to an image in the input list. Each element in the list is a string
+        of the name of the given sign
+        :param images_list: list of np.ndarray
+        :return: list of strings
+        """
         images = np.array(images_list)
         predictions = self.model.predict(images)
         predictions = np.argmax(predictions, axis=1)
