@@ -52,3 +52,17 @@ def get_images_from_dir(im_path):
         except PermissionError:
             continue
     return data
+
+
+def get_input():
+    """
+    gets input from user and turn in into valid path
+    :return:
+    """
+    while True:
+        filename = input('filename:')
+        res, string = validate_path(filename)
+        if res:
+            return string
+        else:
+            continue
