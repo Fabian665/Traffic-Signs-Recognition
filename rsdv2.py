@@ -2,10 +2,10 @@ import os
 import sys
 import cv2
 import imghdr
+import utils
 import numpy as np
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from imageai.Detection import ObjectDetection
-
 
 
 class RoadSignsDetection:
@@ -79,55 +79,8 @@ class RoadSignsDetection:
 
         return detector
 
-    def get_input(self):
-        """
-        gets input from user and turn in into valid path
-        :return:
-        """
-        while True:
-            filename = input('filename:')
-            res, string = self.validate_path(filename)
-            if res:
-                return string
-            else:
-                continue
-
-    @staticmethod
-    def validate_path(input_text: str) -> tuple:
-        if '\\' in input_text:
-            file_path = tuple(input_text.split('\\'))
-        elif '/' in input_text:
-            file_path = tuple(input_text.split('/'))
-        else:
-            file_path = input_text
-
-        if not isinstance(file_path, str):
-            im_path = os.path.join(*file_path)
-        else:
-            im_path = file_path
-
-        if not os.path.isfile(im_path):
-            print(f'{im_path} is not a file or the path is wrong, please try again')
-            return False, None
-        else:
-            return True, im_path
-
-    @staticmethod
-    def get_image(im_path: str):
-        """
-        Get image from path
-        :param im_path: str - Relative or Absolute path
-        :return: tuple of image and image resized
-        """
-        image = cv2.imread(im_path)
-        original_image = image
-        original_image = cv2.resize(original_image, (150, 150))
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = cv2.resize(image, (30, 30))
-        return original_image, image
-
     def predict(self, im_path):
-        self.validate_path(im_path)
+        utils.validate_path(im_path)
         im_type = imghdr.what(im_path)
         if im_type is None:
             raise ValueError(f'{im_path} is not a valid image')
@@ -147,20 +100,22 @@ class RoadSignsDetection:
             return True, (image, (ymin, ymax, xmin, xmax))
 
 
+    def detect(self, im_path):
+        raise NotImplementedError
 
 
 if __name__ == '__main__':
     app = RoadSignsDetection()
     if len(sys.argv) == 1:
-        path = app.get_input()
+        path = utils.get_input()
     else:
-        res, string = app.validate_path(sys.argv[1])
-        if res:
-            path = string
+        string = utils.validate_path(sys.argv[1])
+        if string is None:
+            path = utils.get_input()
         else:
-            path = app.get_input()
+            path = string
 
-    original_im, im = app.get_image(path)
+    original_im, im = utils.get_image(path)
     pred = app.predict(im)
     print(pred)
     cv2.imshow('original', original_im)
