@@ -33,19 +33,18 @@ class RoadSignsDetection:
 
     def predict(self, im_path):
         validate_path(im_path)
-        im_type = imghdr.what(im_path)
-        if im_type is None:
-            raise ValueError(f'{im_path} is not a valid image')
+        if imghdr.what(im_path) is None:
+            raise ValueError(f'{im_path} is not a valid file')
         detections = self.model.detectObjectsFromImage(
             custom_objects=self.custom,
-            input_image=f'{im_path}.{im_type}',
-            output_image_path=f'{im_path}.resnet.{im_type}',
+            input_image=f'{im_path}',
+            output_image_path=f'resnet_output_{im_path}',
             minimum_percentage_probability=50
         )
         if len(detections) == 0:
             return False, None
         else:
-            image = cv2.imread(f'{im_path}.resnet.{im_type}')
+            image = cv2.imread(f'resnet_output_{im_path}')
             xmin, ymin, xmax, ymax = detections[0]['box_points']
             image = image[ymin:ymax, xmin:xmax]
             cv2.imshow('original', image)
