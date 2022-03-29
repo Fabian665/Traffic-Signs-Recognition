@@ -3,9 +3,9 @@ import sys
 import cv2
 import imghdr
 import numpy as np
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from imageai.Detection import ObjectDetection
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 class RoadSignsDetection:
