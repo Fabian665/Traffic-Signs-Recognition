@@ -35,32 +35,30 @@ class RoadSignsDetection:
         validate_path(im_path)
         if imghdr.what(im_path) is None:
             raise ValueError(f'{im_path} is not a valid file')
+        new_file = os.path.dirname(im_path) + 'resnet_output_' + os.path.basename(im_path)
         detections = self.model.detectObjectsFromImage(
             custom_objects=self.custom,
-            input_image=f'{im_path}',
-            output_image_path=f'resnet_output_{im_path}',
+            input_image=im_path,
+            output_image_path=new_file,
             minimum_percentage_probability=50
         )
         if len(detections) == 0:
             return False, None
         else:
-            image = cv2.imread(f'resnet_output_{im_path}')
+            image = cv2.imread(new_file)
             xmin, ymin, xmax, ymax = detections[0]['box_points']
             image = image[ymin:ymax, xmin:xmax]
-            cv2.imshow('original', image)
             return True, (image, (ymin, ymax, xmin, xmax))
 
 
-    def detect(self, im_path):
-        raise NotImplementedError
-
-
 if __name__ == '__main__':
-    from utils import get_path, get_image
+    from utils import get_path
     app = RoadSignsDetection()
     path = get_path()
-    original_im, im = get_image(path)
-    pred = app.predict(im)
-    print(pred)
-    cv2.imshow('original', original_im)
-    cv2.waitKey()
+    stop, (im, _) = app.predict(path)
+    if stop:
+        print('found stop sign')
+        cv2.imshow('original', im)
+        cv2.waitKey()
+    else:
+        print('no stop sign found')
