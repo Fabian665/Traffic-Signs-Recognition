@@ -17,24 +17,29 @@ def get_image(im_path: str):
     return original_image, image
 
 
-def validate_path(input_text: str):
+def validate_path(input_text: str, file=True):
     if '\\' in input_text:
-        file_path = tuple(input_text.split('\\'))
+        path = tuple(input_text.split('\\'))
     elif '/' in input_text:
-        file_path = tuple(input_text.split('/'))
+        path = tuple(input_text.split('/'))
     else:
-        file_path = input_text
+        path = input_text
 
-    if not isinstance(file_path, str):
-        im_path = os.path.join(*file_path)
+    if not isinstance(path, str):
+        path = os.path.join(*path)
     else:
-        im_path = file_path
+        path = path
 
-    if not os.path.isfile(im_path):
-        print(f'{im_path} is not a file or the path is wrong, please try again')
-        return None
+    if file:
+        if not os.path.isfile(path):
+            raise OSError(f'{path} is not a file, please try again')
+        else:
+            return path
     else:
-        return im_path
+        if not os.path.isdir(path):
+            raise OSError(f'{path} is not a directory, please try again')
+        else:
+            return path
 
 
 def get_images_from_dir(im_path):
@@ -54,15 +59,16 @@ def get_images_from_dir(im_path):
     return data
 
 
-def get_input():
+def get_input(file=True):
     """
-    gets input from user and turn in into valid path
+    gets input from user and validates it's a path
     :return:
     """
     while True:
-        filename = input('filename:')
-        string = validate_path(filename)
-        if string is None:
+        path = input('filename: ' if file else 'directory: ')
+        try:
+            string = validate_path(path)
+        except OSError:
+            print(OSError)
             continue
-        else:
-            return string
+        return string
