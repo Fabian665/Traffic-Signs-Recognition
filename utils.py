@@ -61,8 +61,8 @@ def get_input():
     """
     while True:
         filename = input('filename:')
-        res, string = validate_path(filename)
-        if res:
-            return string
-        else:
+        string = validate_path(filename)
+        if string is None:
             continue
+        else:
+            return string
