@@ -38,7 +38,7 @@
 <h3 align="center">Traffic Signs Recognition</h3>
 
   <p align="center">
-    Python road sign recognition built for BGR admission
+    Python traffic signs recognition built for BGR admission
     <br />
     <br />
     <a href="https://github.com/Fabian665/Traffic-Signs-Recognition/issues">Report Bug</a>
