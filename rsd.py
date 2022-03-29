@@ -71,18 +71,6 @@ class RoadSignsDetection:
             raise OSError('Please run train.py or upload sign_recognition.h5 to models folder')
         return return_model
 
-    def get_input(self):
-        """
-        gets input from user and turn in into valid path
-        :return:
-        """
-        while True:
-            filename = input('filename:')
-            res, string = self.validate_path(filename)
-            if res:
-                return string
-            else:
-                continue
 
     def predict_one(self, image: np.ndarray):
         image = np.array([image])
@@ -101,13 +89,13 @@ class RoadSignsDetection:
 if __name__ == '__main__':
     app = RoadSignsDetection()
     if len(sys.argv) == 1:
-        path = app.get_input()
+        path = utils.get_input()
     else:
         res, string = utils.validate_path(sys.argv[1])
         if res:
             path = string
         else:
-            path = app.get_input()
+            path = utils.get_input()
 
     original_im, im = utils.get_image(path)
     pred = app.predict_one(im)
