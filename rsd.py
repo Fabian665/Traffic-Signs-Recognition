@@ -69,7 +69,9 @@ class RoadSignsDetection:
 
     def predict_one(self, image: np.ndarray):
         """
-        Accepts a numpy array representing an image and returns a string of the name of the traffic sign
+        Accepts a numpy array representing an image and returns a string of the name of the traffic sign.
+        In order for the model to detect the sign correctly, the image must be cropped to the sign itself and,
+        preferably, shaped as a square.
         :param image: np.ndarray
         :return: str
         """
@@ -82,7 +84,9 @@ class RoadSignsDetection:
         """
         Accepts a list of numpy arrays representing images and returns a numpy array in the size of the list, each
         element in the returned list corresponds to an image in the input list. Each element in the list is a string
-        of the name of the given sign
+        of the name of the given sign.
+        In order for the model to detect the sign correctly, each image in the list must be cropped to the sign itself
+        and, preferably, shaped as a square.
         :param images_list: list of np.ndarray
         :return: list of strings
         """
