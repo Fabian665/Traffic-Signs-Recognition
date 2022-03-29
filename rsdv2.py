@@ -32,6 +32,13 @@ class StopSignsDetection:
         return detector
 
     def detect(self, im_path):
+        """
+        Accepts a string of a path (relative or absolute) of an image. Returns a tuple.
+        This function accepts images of any shape and detects stop signs in the image, if present. If at least one stop
+        sign is detected, the image is cropped and returned.
+        :param im_path: str - a path to an image
+        :return: tuple - (bool, (np.ndarray, (ymin, ymax, xmin, xmax)))
+        """
         validate_path(im_path)
         if imghdr.what(im_path) is None:
             raise ValueError(f'{im_path} is not a valid file')
@@ -43,7 +50,7 @@ class StopSignsDetection:
             minimum_percentage_probability=50
         )
         if len(detections) == 0:
-            return False, None
+            return False, (None, (None, None, None, None))
         else:
             image = cv2.imread(new_file)
             xmin, ymin, xmax, ymax = detections[0]['box_points']
