@@ -150,7 +150,7 @@ class RoadSignsDetection:
 
 if __name__ == '__main__':
     app = RoadSignsDetection()
-    if len(sys.argv) == 0:
+    if len(sys.argv) == 1:
         path = app.get_input()
     else:
         res, string = app.validate_path(sys.argv[1])
