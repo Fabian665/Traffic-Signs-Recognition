@@ -6,7 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from imageai.Detection import ObjectDetection
 
 
-class RoadSignsDetection:
+class StopSignsDetection:
     def __new__(cls):
         if os.path.isfile(os.path.join("models", "resnet50_coco_best_v2.1.0.h5")):
             return super().__new__(cls)
@@ -31,7 +31,7 @@ class RoadSignsDetection:
 
         return detector
 
-    def predict(self, im_path):
+    def detect(self, im_path):
         validate_path(im_path)
         if imghdr.what(im_path) is None:
             raise ValueError(f'{im_path} is not a valid file')
@@ -53,9 +53,9 @@ class RoadSignsDetection:
 
 if __name__ == '__main__':
     from utils import get_path
-    app = RoadSignsDetection()
+    app = StopSignsDetection()
     path = get_path()
-    stop, (im, _) = app.predict(path)
+    stop, (im, _) = app.detect(path)
     if stop:
         print('found stop sign')
         cv2.imshow('original', im)
