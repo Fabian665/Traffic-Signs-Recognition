@@ -1,8 +1,6 @@
 import os
-import sys
 import cv2
 import imghdr
-import utils
 import numpy as np
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -71,7 +69,6 @@ class RoadSignsDetection:
             raise OSError('Please run train.py or upload sign_recognition.h5 to models folder')
         return return_model
 
-
     def predict_one(self, image: np.ndarray):
         image = np.array([image])
         prediction = self.model.predict(image)
@@ -87,17 +84,10 @@ class RoadSignsDetection:
 
 
 if __name__ == '__main__':
+    from utils import get_path, get_image
     app = RoadSignsDetection()
-    if len(sys.argv) == 1:
-        path = utils.get_input()
-    else:
-        res, string = utils.validate_path(sys.argv[1])
-        if res:
-            path = string
-        else:
-            path = utils.get_input()
-
-    original_im, im = utils.get_image(path)
+    path = get_path()
+    original_im, im = get_image(path)
     pred = app.predict_one(im)
     print(pred)
     cv2.imshow('original', original_im)

@@ -1,6 +1,7 @@
 import imghdr
 import os
 import cv2
+import sys
 
 
 def get_image(im_path: str):
@@ -17,29 +18,13 @@ def get_image(im_path: str):
     return original_image, image
 
 
-def validate_path(input_text: str, file=True):
-    if '\\' in input_text:
-        path = tuple(input_text.split('\\'))
-    elif '/' in input_text:
-        path = tuple(input_text.split('/'))
-    else:
-        path = input_text
-
-    if not isinstance(path, str):
-        path = os.path.join(*path)
-    else:
-        path = path
-
+def validate_path(path: str, file=True):
     if file:
         if not os.path.isfile(path):
             raise OSError(f'{path} is not a file, please try again')
-        else:
-            return path
     else:
         if not os.path.isdir(path):
             raise OSError(f'{path} is not a directory, please try again')
-        else:
-            return path
 
 
 def get_images_from_dir(directory):
@@ -66,8 +51,24 @@ def get_input(file=True):
     while True:
         path = input('filename: ' if file else 'directory: ')
         try:
-            string = validate_path(path)
+            validate_path(path, file)
         except OSError as error:
             print(error)
             continue
-        return string
+        return path
+
+
+def get_path():
+    if len(sys.argv) == 1:
+        path = get_input()
+    elif len(sys.argv) == 2:
+        try:
+            validate_path(sys.argv[1])
+        except OSError:
+            path = get_input()
+        else:
+            path = sys.argv[1]
+    else:
+        raise Exception('rsd.py takes only one parameter - path')
+
+    return path

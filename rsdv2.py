@@ -1,9 +1,7 @@
 import os
-import sys
 import cv2
 import imghdr
-import utils
-import numpy as np
+from utils import validate_path
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from imageai.Detection import ObjectDetection
 
@@ -34,7 +32,7 @@ class RoadSignsDetection:
         return detector
 
     def predict(self, im_path):
-        utils.validate_path(im_path)
+        validate_path(im_path)
         im_type = imghdr.what(im_path)
         if im_type is None:
             raise ValueError(f'{im_path} is not a valid image')
@@ -59,17 +57,10 @@ class RoadSignsDetection:
 
 
 if __name__ == '__main__':
+    from utils import get_path, get_image
     app = RoadSignsDetection()
-    if len(sys.argv) == 1:
-        path = utils.get_input()
-    else:
-        string = utils.validate_path(sys.argv[1])
-        if string is None:
-            path = utils.get_input()
-        else:
-            path = string
-
-    original_im, im = utils.get_image(path)
+    path = get_path()
+    original_im, im = get_image(path)
     pred = app.predict(im)
     print(pred)
     cv2.imshow('original', original_im)
