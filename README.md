@@ -141,7 +141,9 @@ To get a local copy up and running follow these simple example steps.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+
 ###rsd.py
+
 
 Start detecting traffic signs using rsd.py
 ```sh
@@ -168,7 +170,10 @@ app = RoadSignsDetection()
 app.predict_list(image_list)
 ``` 
 
-###rsdv2.py   
+
+###rsdv2.py
+
+
 rsdv2.py detects stop signs from images that has not been cropped to the sign itself
 
 to use it you can skip all the steps above
