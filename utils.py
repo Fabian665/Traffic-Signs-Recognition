@@ -42,15 +42,14 @@ def validate_path(input_text: str, file=True):
             return path
 
 
-def get_images_from_dir(im_path):
-    if not os.path.isdir(im_path):
-        raise OSError(f'{im_path} is not a valid path')
+def get_images_from_dir(directory):
+    validate_path(directory, False)
     data = []
-    for image in os.listdir(im_path):
+    for image in os.listdir(directory):
         try:
-            if imghdr.what(os.path.join(im_path, image)) is None:
+            if imghdr.what(os.path.join(directory, image)) is None:
                 continue
-            image = cv2.imread(os.path.join(im_path, image))
+            image = cv2.imread(os.path.join(directory, image))
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = cv2.resize(image, (30, 30))
             data.append(image)
