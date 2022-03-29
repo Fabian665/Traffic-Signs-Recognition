@@ -4,6 +4,10 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 
 if not os.path.isdir('data'):
     os.mkdir('data')
+if not os.path.isdir('stats'):
+    os.mkdir('stats')
+if not os.path.isdir('models'):
+    os.mkdir('models')
 
 if not os.path.isfile(os.path.join('data', 'Test.csv')):
     api = KaggleApi()
