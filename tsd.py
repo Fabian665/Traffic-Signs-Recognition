@@ -5,7 +5,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow import keras
 
 
-class RoadSignsDetection:
+class TrafficSignsDetection:
     def __init__(self):
         self.model = self._get_model()
         self.classes_dict = {
@@ -99,7 +99,7 @@ class RoadSignsDetection:
 
 if __name__ == '__main__':
     from utils import get_path, get_image
-    app = RoadSignsDetection()
+    app = TrafficSignsDetection()
     path = get_path()
     original_im, im = get_image(path)
     pred = app.predict_one(im)

@@ -69,6 +69,6 @@ def get_path():
         else:
             path = sys.argv[1]
     else:
-        raise Exception('rsd.py takes only one parameter - path')
+        raise Exception('tsd.py takes only one parameter - path')
 
     return path

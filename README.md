@@ -142,50 +142,52 @@ To get a local copy up and running follow these simple example steps.
 ## Usage
 
 
-### rsd.py
+### tsd.py
 
 
-Start detecting traffic signs using rsd.py
+Start detecting traffic signs using tsd.py
 ```sh
-python rsd.py {file_path}
+python tsd.py {file_path}
 ```
 You can also use in your own code
+
 ```python
 import os
-from rsd import RoadSignsDetection
+from tsd import TrafficSignsDetection
 from utils import get_image
 
 image = get_image(os.path.join('images', 'v1', 'example1.png'))
-app = RoadSignsDetection()
+app = TrafficSignsDetection()
 app.predict_one(image)
 ```
 Or for multiple images
+
 ```python
 import os
-from rsd import RoadSignsDetection
+from tsd import TrafficSignsDetection
 from utils import get_images_from_dir
 
 image_list = get_images_from_dir(os.path.join('images', 'v1'))
-app = RoadSignsDetection()
+app = TrafficSignsDetection()
 app.predict_list(image_list)
 ``` 
 
 
-### rsdv2.py
+### tsdv2.py
 
 
-rsdv2.py detects stop signs from images that has not been cropped to the sign itself
+tsdv2.py detects stop signs from images that has not been cropped to the sign itself
 
 to use it you can skip all the steps above
 1. Create models directory and place "resnet50_coco_best_v2.1.0.h5" in it
-2. Start detecting stop signs using rsdv2.py
+2. Start detecting stop signs using tsdv2.py
    ```sh
-   python rsd.py images\v1\example1.png
+   python tsd.py images\v1\example1.png
    ```
    You can also use in your own code
    ```python
    import os
-   from rsdv2 import StopSignsDetection
+   from tsdv2 import StopSignsDetection
    
    app = StopSignsDetection()
    app.detect(os.path.join('images', 'v2', 'example.jpg'))
